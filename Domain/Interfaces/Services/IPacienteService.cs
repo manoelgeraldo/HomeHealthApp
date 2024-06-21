@@ -9,9 +9,9 @@ namespace Domain.Interfaces.Services
 {
     public interface IPacienteService
     {
-        Task<PacienteDTO> AdicionarPacienteAsync(PacienteDTO novoPaciente);
-        Task<PacienteDTO> EditarPacienteAsync(PacienteDTO pacienteEditado);
-        Task<PacienteDTO> ObterPacienteAsync(string cpf);
-        Task<IEnumerable<PacienteDTO>> ObterPacientesAsync();
+        Task<PacienteViewModel> AdicionarPacienteAsync(PacienteViewModel novoPaciente);
+        Task<PacienteViewModel> EditarPacienteAsync(PacienteViewModel pacienteEditado);
+        Task<PacienteViewModel> ObterPacienteAsync(string cpf);
+        Task<IEnumerable<PacienteViewModel>> ObterPacientesAsync();
     }
 } 

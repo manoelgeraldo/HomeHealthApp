@@ -14,10 +14,11 @@ namespace Service.Mappings
     {
         public PacienteMappingProfile()
         {
-            CreateMap<PacienteDTO, Paciente>()
+            CreateMap<PacienteViewModel, Paciente>()
                 .ForMember(x => x.DataNascimento, o => o.MapFrom(x => DateOnly.FromDateTime(x.DataNascimento)))
                 .ReverseMap()
-                .ForPath(x => x.DataNascimento, o => o.MapFrom(x => x.DataNascimento.ToDateTime(TimeOnly.MinValue)));
+                .ForPath(x => x.DataNascimento, o => o.MapFrom(x => x.DataNascimento.ToDateTime(TimeOnly.MinValue)))
+                .ForMember(x => x.Idade, o => o.MapFrom(x => x.CalcularIdade()));
         }
     }
 }

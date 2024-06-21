@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 
 namespace Data.DataAccess
 {
-    public class DataContextAccess : DbContext
+    public class DataContextAccess(DbContextOptions options) : DbContext(options)
     {
-        public DataContextAccess(DbContextOptions options) : base(options)
-        {
-        }
-
         public DbSet<Paciente> Pacientes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

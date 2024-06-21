@@ -41,7 +41,7 @@ namespace API.H2A.Controllers.v1
         /// Adiciona um paciente
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> Post(PacienteDTO novoPaciente)
+        public async Task<IActionResult> Post(PacienteViewModel novoPaciente)
         {
             var paciente = await _pacienteService.AdicionarPacienteAsync(novoPaciente);
             return StatusCode(StatusCodes.Status201Created, paciente);
@@ -51,7 +51,7 @@ namespace API.H2A.Controllers.v1
         /// Edita um paciente
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Put(PacienteDTO pacienteEditado)
+        public async Task<IActionResult> Put(PacienteViewModel pacienteEditado)
         {
             pacienteEditado = await _pacienteService.EditarPacienteAsync(pacienteEditado);
             return StatusCode(StatusCodes.Status200OK, pacienteEditado);

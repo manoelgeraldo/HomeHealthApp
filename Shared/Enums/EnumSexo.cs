@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.EnumsViewModels
+namespace Shared.Enums
 {
-    public enum EnumSexoDTO
+    public enum EnumSexo
     {
         Masculino,
         Feminino

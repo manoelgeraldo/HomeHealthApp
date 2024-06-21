@@ -12,57 +12,42 @@ using System.Threading.Tasks;
 
 namespace Service.Services
 {
-    public class PacienteService : IPacienteService
+    public class PacienteService(IPacienteRepository repository, IMapper mapper) : IPacienteService
     {
-        private readonly IPacienteRepository _repository;
-        private readonly IMapper _mapper;
-
-        public PacienteService(IPacienteRepository repository, IMapper mapper)
+        public async Task<IEnumerable<PacienteViewModel>> ObterPacientesAsync()
         {
-            _repository = repository;
-            _mapper = mapper;
-        }
+            var pacientes = await repository.ObterPacientesAsync();
 
-        public async Task<IEnumerable<PacienteDTO>> ObterPacientesAsync()
-        {
-            var pacientes = await _repository.ObterPacientesAsync();
-
-            var pacientesViewModel = _mapper.Map<IEnumerable<PacienteDTO>>(pacientes);
+            var pacientesViewModel = mapper.Map<IEnumerable<PacienteViewModel>>(pacientes);
 
             return pacientesViewModel;
         }
 
-        public async Task<PacienteDTO> ObterPacienteAsync(string cpf)
+        public async Task<PacienteViewModel> ObterPacienteAsync(string cpf)
         {
-            var paciente = await _repository.ObterPacienteAsync(cpf);
-
-            if (paciente is null) { throw new Exception("Paciente não existe na base de dados!"); }
-
-            var pacienteViewModel = _mapper.Map<PacienteDTO>(paciente);
+            var paciente = await repository.ObterPacienteAsync(cpf) ?? throw new Exception("Paciente não existe na base de dados!");
+            var pacienteViewModel = mapper.Map<PacienteViewModel>(paciente);
 
             return pacienteViewModel;
         }
 
-        public async Task<PacienteDTO> AdicionarPacienteAsync(PacienteDTO novoPaciente)
+        public async Task<PacienteViewModel> AdicionarPacienteAsync(PacienteViewModel novoPaciente)
         {
-            var paciente = _mapper.Map<Paciente>(novoPaciente);
+            var paciente = mapper.Map<Paciente>(novoPaciente);
             
-            paciente = await _repository.AdicionarPacienteAsync(paciente);
+            paciente = await repository.AdicionarPacienteAsync(paciente);
             
-            var pacienteViewModel = _mapper.Map<PacienteDTO>(paciente);
+            var pacienteViewModel = mapper.Map<PacienteViewModel>(paciente);
 
             return pacienteViewModel;
         }
 
-        public async Task<PacienteDTO> EditarPacienteAsync(PacienteDTO pacienteEditado)
+        public async Task<PacienteViewModel> EditarPacienteAsync(PacienteViewModel pacienteEditado)
         {
-            var paciente = await _repository.ObterPacienteAsync(pacienteEditado.CPF);
-            
-            if(paciente is null) { throw new Exception("Paciente não existe na base de dados!"); }
+            var paciente = await repository.ObterPacienteAsync(pacienteEditado.CPF) ?? throw new Exception("Paciente não existe na base de dados!");
+            paciente = await repository.EditarPacienteAsync(paciente, mapper.Map<Paciente>(pacienteEditado));
 
-            paciente = await _repository.EditarPacienteAsync(paciente, _mapper.Map<Paciente>(pacienteEditado));
-
-            pacienteEditado = _mapper.Map<PacienteDTO>(paciente);
+            pacienteEditado = mapper.Map<PacienteViewModel>(paciente);
 
             return pacienteEditado;
         }

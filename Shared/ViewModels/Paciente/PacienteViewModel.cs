@@ -1,4 +1,4 @@
-﻿using Shared.EnumsViewModels;
+﻿using Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 
 namespace Shared.ViewModels
 {
-    public class PacienteDTO
+    public class PacienteViewModel
     {
-        public string CPF { get; set; }
+        public string CPF { get; set; } = string.Empty;
 
-        public string Nome { get; set; }
+        public string Nome { get; set; } = string.Empty;
 
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
-        public EnumSexoDTO Sexo { get; set; }
+        public int Idade { get; set; }
+
+        public EnumSexo Sexo { get; set; }
     }
 }
